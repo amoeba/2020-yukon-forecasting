@@ -1,0 +1,14 @@
+---
+output: md_document
+---
+
+# 2020-yukon-forecasting
+
+Data, code, and output for the 2020 operational forecast of Yukon River Chinook salmon run timing.
+
+## Previous years
+
+- https://github.com/amoeba/2019-yukon-forecasting
+- https://github.com/amoeba/2018-yukon-forecasting
+- https://github.com/amoeba/2017-yukon-forecasting
+- https://github.com/amoeba/2016-yukon-forecasting
