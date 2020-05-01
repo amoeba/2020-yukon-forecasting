@@ -4,7 +4,7 @@
 <!-- badges: start -->
 
 [![R build
-status](https://github.com/amoeba/2020-yukon-forecasting/workflows/R-CMD-check/badge.svg)](https://github.com/amoeba/2020-yukon-forecasting/actions)
+status](https://github.com/amoeba/2020-yukon-forecasting/workflows/Render%20README/badge.svg)](https://github.com/amoeba/2020-yukon-forecasting/actions)
 <!-- badges: end -->
 
 Data, code, and output for the 2020 operational forecast of Yukon River
