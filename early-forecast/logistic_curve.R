@@ -6,39 +6,23 @@
 library(ggplot2)
 library(readr)
 
-predictions <- read_csv("april_forecast//predictions.csv")
+# Read in predictions, generated from models.R
+predictions <- read_csv("early-forecast/output/predictions.csv")
 
-# Define the logistic function and its RSS
-mu_i <- 17
-s_i <- 5
-
+# Define a logistic curve function
 logi_fun <- function(x, mu, s) { 1 / (1 + exp(-((x - mu)/s))) }
-logi_rss <- function(pars) {
-  # Recalculate
-  dat <- data.frame(day = predictions$prediction,
-                    cumulative_cpue = logi_fun(predictions$prediction, pars[1], pars[2]))
 
-  # Calculate and return RSS
-  sum(c((dat[dat$day == predictions[predictions$percentile == "fifdj","prediction"], "cumulative_cpue"] - 0.15)^2,
-        (dat[dat$day == predictions[predictions$percentile == "qdj","prediction"], "cumulative_cpue"] - 0.25)^2,
-        (dat[dat$day == predictions[predictions$percentile == "mdj","prediction"], "cumulative_cpue"] - 0.50)^2))
-}
-
-optim_result <- optim(par = c(mu_i, s_i), fn = logi_rss)
-optim_result
-save("optim_result", file = "may_forecast/optim_result.RData")
-
-# 2017 override of optim values because they are unstable when solved with optim
-# I fit them in Excel instead and all is will. They were fit simultaneously (mu and s)
-optim_result <- list(par = c(18.95, 4.24))
+# Pulled from fit_logistics.xlsx. R optim is just not happy (see: bad)
+mu <- 19.0072489
+s <- 4.589002334
 
 xrange <- -10:50
 cpue <- data.frame(day = xrange,
                    date = as.Date(xrange, format = "%j", origin = as.Date("2016-05-31")),
-                   pccpue = 100 * logi_fun(xrange, optim_result$par[1], optim_result$par[2]))
+                   pccpue = 100 * logi_fun(xrange, mu, s))
 
 # Write out
-write_csv(cpue, path = "april_forecast/logistic_curve.csv")
+write_csv(cpue, path = "early-forecast/output/logistic_curve.csv")
 
 predictions$percent <- c(15, 25, 50)
 predictions$label <- paste0(c(15, 25, 50), "%")
@@ -51,4 +35,4 @@ ggplot() +
   labs(x = "Date", y = "Cumulative % CPUE") +
   theme_bw()
 
-ggsave("may_forecast/logistic_curve.png", width = 6, height = 3)
+ggsave("early-forecast/figures/logistic_curve.png", width = 6, height = 3)

@@ -1,6 +1,10 @@
 # Modeling
 ##########
 
+library(readr)
+library(dplyr)
+library(ggplot2)
+
 # Change this first
 ###############
 yr <- 2020 # TODO: _Could_ be a function instead...
@@ -26,7 +30,6 @@ for (y in (max(yuk$year) - 15):(max(yuk$year) - 1)) {
                              pred = model_pred))
 }
 
-
 mean(abs(result$obs - result$pred))
 sd(abs(result$obs - result$pred))
 max(abs(result$obs - result$pred))
@@ -47,3 +50,13 @@ predict(model_qdj, newdata =  yuk[yuk$year == yr,])
 
 model_mdj <- lm(mdj ~ amatc, data = subset(yuk, year < yr))
 predict(model_mdj, newdata =  yuk[yuk$year == yr,])
+
+predictions_df <- data.frame(
+  percentile = c("fifdj", "qdj", "mdj"),
+  prediction = c(
+    floor(predict(model_fifdj, newdata =  yuk[yuk$year == yr,])),
+    floor(predict(model_qdj, newdata =  yuk[yuk$year == yr,])),
+    floor(predict(model_mdj, newdata =  yuk[yuk$year == yr,]))
+  ))
+
+write_csv(predictions_df, "early-forecast/output/predictions.csv")
