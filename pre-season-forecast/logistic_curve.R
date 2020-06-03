@@ -6,14 +6,14 @@
 library(ggplot2)
 library(readr)
 
-predictions <- read_csv("may_forecast/predictions.csv")
+predictions <- read_csv("pre-season-forecast/output/predictions.csv")
 logi_fun <- function(x, mu, s) { 1 / (1 + exp(-((x - mu)/s))) }
 
 # High irreproducibility warning: This part of the methods relies on Excel's
-# terrible optimizer. R is too good at optimizing this so I use the 
+# terrible optimizer. R is too good at optimizing this so I use the
 # fit_logistic.xls to find a reasonably good fit for the forecast dates. This
 # isn't a problem for the accuracy of the forecast or this chart.
-optim_result <- list(par = c(18.05500211, 3.890378944))
+optim_result <- list(par = c(21.9352959, 4.950203657))
 
 xrange <- -10:50
 cpue <- data.frame(day = xrange,
@@ -21,7 +21,7 @@ cpue <- data.frame(day = xrange,
                    pccpue = 100 * logi_fun(xrange, optim_result$par[1], optim_result$par[2]))
 
 # Write out
-write_csv(cpue, path = "may_forecast/logistic_curve.csv")
+write_csv(cpue, path = "pre-season-forecast/output/logistic_curve.csv")
 
 predictions$percent <- c(15, 25, 50)
 predictions$label <- paste0(c(15, 25, 50), "%")
@@ -34,4 +34,4 @@ ggplot() +
   labs(x = "Date", y = "Cumulative % CPUE") +
   theme_bw()
 
-ggsave("may_forecast/logistic_curve.png", width = 6, height = 3)
+ggsave("early-forecast/logistic_curve.png", width = 6, height = 3)

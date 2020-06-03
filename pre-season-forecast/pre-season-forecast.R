@@ -6,8 +6,7 @@ library(dplyr)
 library(ggplot2)
 theme_set(theme_bw())
 library(readr)
-library(patchwork) # https://github.com/thomasp85/patchwork
-library(ggtext)
+library(patchwork)
 
 # Data loading/cleanup
 ######################
@@ -38,33 +37,34 @@ p_amatc <- ggplot(yuk, aes(amatc, mdj)) +
 ggsave("pre-season-forecast/figures/mdj_against_amatc.png", width = 4, height = 4)
 
 # Three panel plot
+theme_set(theme_bw())
 p_amatc + p_msstc + p_pice
-ggsave("pre-season-forecast/figures/three_panel.png", width = 8, height = 4)
+ggsave("pre-season-forecast/figures/three_panel.png", width = 12, height = 4)
 
 # Time series plot
 theme_set(theme_classic() + theme(axis.title = element_blank(),
                                   panel.border = element_rect(size = 1, fill = NA),
                                   axis.line = element_blank(),
-                                  title = element_text(size = 10, face = "bold")))
+                                  title = element_text(size = 10)))
 
-p1 <- ggplot(yukon, aes(year, amatc)) +
+p1 <- ggplot(yuk, aes(year, amatc)) +
   geom_line() +
-  geom_point(data = subset(yukon, year == forecast_year)) +
-  geom_hline(yintercept = median(yukon[yukon$year < forecast_year, "amatc"][[1]])) +
-  labs(title = "April Average Air Temperature (s°C) at the Nome, AK airport") +
+  geom_point(data = subset(yuk, year == forecast_year)) +
+  geom_hline(yintercept = median(yuk[yuk$year < forecast_year, "amatc"][[1]])) +
+  labs(title = "April Average Air Temperature (°C) at the Nome, AK airport") +
   theme(axis.title.x = element_blank())
 
-p2 <- ggplot(yukon, aes(year, msstc)) +
+p2 <- ggplot(yuk, aes(year, msstc)) +
   geom_line() +
-  geom_point(data = subset(yukon, year == forecast_year)) +
-  geom_hline(yintercept = median(yukon[yukon$year < forecast_year, "msstc"][[1]])) +
+  geom_point(data = subset(yuk, year == forecast_year)) +
+  geom_hline(yintercept = median(yuk[yuk$year < forecast_year, "msstc"][[1]])) +
   labs(title = "May Average Sea Surface Temperature (°C), 62–64°N by 165–169°W") +
   theme(axis.title.x = element_blank())
 
-p3 <- ggplot(yukon, aes(year, pice)) +
+p3 <- ggplot(yuk, aes(year, pice)) +
   geom_line() +
-  geom_point(data = subset(yukon, year == forecast_year)) +
-  geom_hline(yintercept = median(yukon[yukon$year < forecast_year, "pice"][[1]], na.rm = TRUE)) +
+  geom_point(data = subset(yuk, year == forecast_year)) +
+  geom_hline(yintercept = median(yuk[yuk$year < forecast_year, "pice"][[1]], na.rm = TRUE)) +
   scale_y_continuous(limits = c(0, 1)) +
   labs(title = "Spring Proportion of Ice Cover, 62–64°N by 165–169°W") +
   theme(axis.title.x = element_blank())
