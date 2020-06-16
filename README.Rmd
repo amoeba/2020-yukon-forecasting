@@ -6,6 +6,20 @@ output: md_document
 
 Data, code, and output for the 2020 operational forecast of Yukon River Chinook salmon run timing.
 
+## Predictions
+
+
+|% of Run|Day|
+|-|-|
+|15%|June 14|
+|25%|June 16|
+|50%|June 22|
+
+## Plots
+
+![](daily_forecast/figures/daily_forecast.png)
+
+![](daily_forecast/figures/final_cpue.png)
 ## Previous years
 
 - https://github.com/amoeba/2019-yukon-forecasting
