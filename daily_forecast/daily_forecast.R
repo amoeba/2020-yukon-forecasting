@@ -74,3 +74,10 @@ ggplot(final_cpue, aes(date, estimate)) +
   theme_bw()
 
 ggsave("daily_forecast/figures/final_cpue.png", width = 6, height = 3)
+
+# Calculate Big Eddy (Set) cumulative for Google Sheet
+beset <- read_csv("data/big_eddy_set.csv")
+beset %>%
+  mutate(ccpue = cumsum(cpue)) %>%
+  select(ccpue) -> beset
+write_csv(beset, "daily_forecast/output/beset_cumulative.csv", col_names = FALSE)
