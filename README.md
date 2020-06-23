@@ -11,7 +11,7 @@ Data, code, and output for the 2020 operational forecast of Yukon River Chinook 
 |25%|June 16|
 |50%|June 22|
 
-## Plots
+## Diagnostic Plots
 
 **Figure 1:** Estimated vs. Modeled %CPUE (Chart 1 on AOOS page)
 
