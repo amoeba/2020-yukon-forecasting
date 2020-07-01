@@ -11,6 +11,7 @@
 #' arriving at LYTF and Pilot Station sonar which is usually three days
 #' (~100mi @ ~30mi/day).
 
+library(dplyr)
 library(readr)
 library(ggplot2)
 library(patchwork)
@@ -49,12 +50,16 @@ comb <- bind_rows(beset, bedrift, pilot)
 # plot
 theme_set(theme_bw())
 
-por <- ggplot(comb, aes(day, prop, color = site)) +
+por <- ggplot(comb, aes(day, prop, linetype = site)) +
   geom_line() +
   labs(title = "Percent of Run", y = "% of Run", x = "Day of June")
 
-cpor <- ggplot(comb, aes(day, cprop, color = site)) +
+cpor <- ggplot(comb, aes(day, cprop, linetype = site)) +
   geom_line() +
   labs(title = "Cumulative Percent of Run", x = "Cumul. % of Run", y = "Day of June")
 
-por / cpor
+plot <- por / cpor
+plot
+
+ggsave("analyses/timing-comparison.png", plot = plot)
+
