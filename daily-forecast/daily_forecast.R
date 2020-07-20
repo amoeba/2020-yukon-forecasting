@@ -23,10 +23,10 @@ estimated <- inseason %>%
 
 
 # Export estimated pccpues for Chart1
-write.table(subset(estimated, day >= 1)$pccpue * 100, row.names = FALSE, col.names = FALSE, file = "daily_forecast/output/estimated.csv")
+write.table(subset(estimated, day >= 1)$pccpue * 100, row.names = FALSE, col.names = FALSE, file = "daily-forecast/output/estimated.csv")
 
 # Write cumulative CPUEs for Chart 2
-write.table(inseason[inseason$day >= 1,"ccpue"], row.names = FALSE, col.names = FALSE, file = "daily_forecast/output/cumulative_cpue.csv")
+write.table(inseason[inseason$day >= 1,"ccpue"], row.names = FALSE, col.names = FALSE, file = "daily-forecast/output/cumulative_cpue.csv")
 
 # Subset the columns for later use
 estimated <- estimated %>%
@@ -60,7 +60,7 @@ ggplot() +
         legend.title = element_blank(),
         legend.background = element_rect(fill = NULL, linetype = "solid", color = "black"))
 
-ggsave("daily_forecast/figures/daily_forecast.png", width = 6, height = 3)
+ggsave("daily-forecast/figures/daily_forecast.png", width = 6, height = 3)
 
 # Chart 2: Finaly CPUE time series
 final_cpue <- data.frame(day = inseason$day,
@@ -73,11 +73,11 @@ ggplot(final_cpue, aes(date, estimate)) +
   labs(x = "Date", y = "Estimated Total CPUE") +
   theme_bw()
 
-ggsave("daily_forecast/figures/final_cpue.png", width = 6, height = 3)
+ggsave("daily-forecast/figures/final_cpue.png", width = 6, height = 3)
 
 # Calculate Big Eddy (Set) cumulative for Google Sheet
 beset <- read_csv("data/big_eddy_set.csv")
 beset %>%
   mutate(ccpue = cumsum(cpue)) %>%
   select(ccpue) -> beset
-write_csv(beset, "daily_forecast/output/beset_cumulative.csv", col_names = FALSE)
+write_csv(beset, "daily-forecast/output/beset_cumulative.csv", col_names = FALSE)
